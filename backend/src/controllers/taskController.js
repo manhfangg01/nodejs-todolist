@@ -1,13 +1,20 @@
 import Task from "../models/Task.js";
 
-export const getAllTasks = async (request, response) => {
+export const getAllTasks = async (request, response, next) => {
   try {
     const tasks = await Task.find().sort({ createdAt: -1 });
+    request.task = tasks;
     response.status(200).json({ data: tasks });
+    next(); // list handler
   } catch (error) {
     console.log("Lỗi xảy ra với getAllTasks");
     response.status(500).json({ message: "Lỗi hệ thống" });
   }
+};
+
+export const test = (req, res) => {
+  console.log(req.task);
+  console.log(res);
 };
 
 export const createTask = async (request, response) => {
@@ -25,10 +32,10 @@ export const createTask = async (request, response) => {
 
 export const updateTask = async (request, response) => {
   try {
-    const { title, status, completedAt } = request.body;
+    const { id, title, status, completedAt } = request.body;
     const updatedTask = await Task.findByIdAndUpdate(
-      request.params.id,
       {
+        id,
         title,
         status,
         completedAt,
