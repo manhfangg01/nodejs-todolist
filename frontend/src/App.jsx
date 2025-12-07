@@ -11,6 +11,7 @@ function App() {
           <Route path="*" element={<NotFound />}></Route>
         </Routes>
       </BrowserRouter>
+      <Toaster position="top-center" richColors />
     </>
   );
 }

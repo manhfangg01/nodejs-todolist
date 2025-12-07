@@ -34,8 +34,8 @@ export const updateTask = async (request, response) => {
   try {
     const { id, title, status, completedAt } = request.body;
     const updatedTask = await Task.findByIdAndUpdate(
+      id,
       {
-        id,
         title,
         status,
         completedAt,
@@ -57,7 +57,7 @@ export const updateTask = async (request, response) => {
 export const deleteTask = async (request, response) => {
   try {
     const deletedTask = await Task.findByIdAndDelete(request.params.id);
-    if (!deleteTask) {
+    if (!deletedTask) {
       return response.status(404).json({ message: "Không tìm thấy công việc cần xóa" });
     }
 
